@@ -216,7 +216,7 @@
             <input type="text" name="name" placeholder="Your Name" required>
             <input type="email" name="email" placeholder="Your Email" required>
             <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-
+             <div class="h-captcha" data-captcha="true"></div>
             <button type="submit">Submit</button>
 </form>
 <div id="successBox" class="msg-box success hidden">
@@ -239,6 +239,7 @@
   <footer>
     <p>© 2025 Suraj Bhusal. All Rights Reserved.</p>
   </footer>
+<script src="https://web3forms.com/client/script.js" async defer></script>
  <script>
 const form = document.getElementById('form');
 const submitBtn = form.querySelector('button[type="submit"]');
