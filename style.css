@@ -573,3 +573,35 @@
       .about-text, .about-image {
         margin-top: 1.5rem;
       }}
+      .msg-box {
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-top: 15px;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    text-align: center;
+    max-width: 400px;
+}
+
+.success {
+    background: #d6ffe2;
+    border-left: 5px solid #27ae60;
+    color: #1c7a42;
+}
+
+.error {
+    background: #ffd9d9;
+    border-left: 5px solid #e74c3c;
+    color: #a13b2e;
+}
+
+.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hidden {
+    display: none;
+}

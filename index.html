@@ -211,8 +211,7 @@
         </div>
         <div class="contact-form">
           <h3>Send a Message</h3>
-          <form id="contactForm">
-            <input type="hidden" name="access_key" value="91aa24ba-2bce-41ae-9134-373c37af1f36">
+          <form id="form">
 
             <input type="text" name="name" placeholder="Your Name" required>
             <input type="email" name="email" placeholder="Your Email" required>
@@ -220,6 +219,14 @@
 
             <button type="submit">Submit</button>
 </form>
+<div id="successBox" class="msg-box success hidden">
+    ✓ Your message has been sent!
+</div>
+
+<div id="errorBox" class="msg-box error hidden">
+    ⚠ Something went wrong. Please try again.
+</div>
+
 
 <p id="formStatus" style="margin-top:10px; font-weight:600;"></p>
 
@@ -233,34 +240,57 @@
     <p>© 2025 Suraj Bhusal. All Rights Reserved.</p>
   </footer>
  <script>
-document.getElementById("contactForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
+const form = document.getElementById('form');
+const submitBtn = form.querySelector('button[type="submit"]');
 
-  const form = e.target;
-  const status = document.getElementById("formStatus");
-  status.textContent = "Sending...";
+const successBox = document.getElementById("successBox");
+const errorBox = document.getElementById("errorBox");
 
-  const formData = new FormData(form);
+function showMessage(box) {
+    box.classList.remove("hidden");
+    setTimeout(() => box.classList.add("show"), 20);
 
-  try {
-    const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      body: formData
-    });
+    setTimeout(() => {
+        box.classList.remove("show");
+        setTimeout(() => box.classList.add("hidden"), 400);
+    }, 3000); // hides after 3s
+}
 
-    const result = await response.json();
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-    if (result.success) {
-      status.textContent = "Message sent successfully!";
-      form.reset();
-    } else {
-      status.textContent = "Something went wrong. Try again.";
+    const formData = new FormData(form);
+    formData.append("access_key", "91aa24ba-2bce-41ae-9134-373c37af1f36");
+
+    const originalText = submitBtn.textContent;
+
+    submitBtn.textContent = "Sending...";
+    submitBtn.disabled = true;
+
+    try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+            form.reset();
+            showMessage(successBox);
+        } else {
+            showMessage(errorBox);
+        }
+
+    } catch (error) {
+        showMessage(errorBox);
+    } finally {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
     }
-  } catch (error) {
-    status.textContent = "Network error. Please try again later.";
-  }
 });
 </script>
+
 
   <script>
     // Hide preloader after 2 seconds once the window loads
